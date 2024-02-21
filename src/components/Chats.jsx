@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import { ChatEngine } from 'react-chat-engine';
 import { auth } from '../firebase';
@@ -14,7 +14,7 @@ const Chats = () => {
     const handleLogOut = async() =>{
         await auth.signOut();
 
-        history.push('/');
+        history.push("/");
     };
 
     const getFile = async(url) => {
@@ -33,7 +33,7 @@ const Chats = () => {
 
         axios.get('https://api.chatengine.io/users/me/', {
             headers: {
-                'preoject-id': '9021ecc6-fcb7-4c33-9ee6-11022d77366a',
+                'preoject-id': process.env.REACT_APP_CHAT_ENGINE_ID,
                 'user-name' : user.email,
                 'user-secret' : user.uid
             }
@@ -42,14 +42,14 @@ const Chats = () => {
         }).catch(() => {
             let formdata = new FormData();
             formdata.append('email', user.email);
-            formdata.append('username', user.displayName);
+            formdata.append('username', user.email);
             formdata.append('secret', user.uid); 
 
             getFile(user.photoURL).then((avatar) => {
                 formdata.append('avatar', avatar, avatar.name);
 
                 axios.post('https://api.chatengine.io/users/', formdata, {
-                    headers: { 'preivate=key' : '6ea71472-24e5-48bd-9fa5-734acf79a930'}
+                    headers: { 'private-key' : process.env.REACT_APP_CHAT_ENGINE_KEY}
                 }).then(() => setLoading(false))
                    .catch((error) => console.log(error))
             })
@@ -75,12 +75,12 @@ const Chats = () => {
 
       <ChatEngine
         height='calc(100vh - 66px)'
-        projectID="9021ecc6-fcb7-4c33-9ee6-11022d77366a"
+        projectID={process.env.REACT_APP_CHAT_ENGINE_ID}
         userName={user.email}
         userSecret={user.uid}
       />
     </div>
   )
-}
+};
 
-export default Chats
+export default Chats;
