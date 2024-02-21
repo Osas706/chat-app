@@ -9,7 +9,7 @@ import axios from 'axios';
 const Chats = () => {
     const history = useHistory();
     const { user } = useAuth();
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
 
     const handleLogOut = async() =>{
         await auth.signOut();
