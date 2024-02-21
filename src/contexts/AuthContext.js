@@ -20,8 +20,7 @@ export const AuthProvider = ({ children }) => {
       })
    }, [user, history]);
 
-   const value = ( user );
-
+   const value = {user} ;
 
    return(
     <AuthContext.Provider value={value}>
